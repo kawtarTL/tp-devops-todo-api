@@ -1,0 +1,40 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - main  # ou master si c'est ta branche principale
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # L'environnement dans lequel ton pipeline sera exécuté
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v2  # Vérifie ton code depuis GitHub
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16'  # Spécifie la version de Node.js
+
+    - name: Install Dependencies
+      run: npm install  # Installe les dépendances du projet
+
+    - name: Run Tests
+      run: npm test  # Exécute les tests unitaires avec Jest, Mocha, ou un autre framework
+
+    - name: Lint Code
+      run: npm run lint  # Si tu utilises un linter comme ESLint
+
+    - name: Build Project
+      run: npm run build  # Si ton projet nécessite une compilation (par exemple, pour TypeScript ou un bundler)
+
+    - name: Simulate Deployment
+      run: echo "Déploiement simulé"  # Si tu veux simplement simuler une étape de déploiement (par exemple Docker, cloud, etc.)
+
+    - name: Create Git Tag (optional)
+      run: |
+        git tag -a v1.0.0 -m "Release v1.0.0"  # Crée un tag Git pour la release
+        git push origin v1.0.0  # Pousse le tag sur GitHub
+
