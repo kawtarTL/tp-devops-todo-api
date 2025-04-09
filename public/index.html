@@ -4,18 +4,108 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todo List</title>
+    <style>
+        /* Style de base */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fc;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        form {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            width: 300px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px 15px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 14px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            width: 350px;
+        }
+
+        li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        li.completed {
+            background-color: #81c784; /* Vert clair pour la tâche terminée */
+            text-decoration: line-through;
+        }
+
+        .actions button {
+            margin-left: 5px;
+        }
+
+        .completed-btn {
+            background-color: #ff9800;
+        }
+
+        .delete-btn {
+            background-color: #f44336;
+        }
+
+        .completed-btn:hover, .delete-btn:hover {
+            opacity: 0.8;
+        }
+
+        /* Responsive design */
+        @media (max-width: 600px) {
+            input[type="text"] {
+                width: 200px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Liste des tâches</h1>
+    <div>
+        <h1>Liste des tâches</h1>
+        <form id="todoForm">
+            <input type="text" id="todoTitle" placeholder="Ajouter une tâche" required>
+            <button type="submit">Ajouter</button>
+        </form>
 
-    <!-- Formulaire pour ajouter une tâche -->
-    <form id="todoForm">
-        <input type="text" id="todoTitle" placeholder="Ajouter une tâche" required>
-        <button type="submit">Ajouter</button>
-    </form>
-
-    <h2>Mes tâches :</h2>
-    <ul id="todoList"></ul>
+        <h2>Mes tâches :</h2>
+        <ul id="todoList"></ul>
+    </div>
 
     <script>
         // Fonction pour récupérer les tâches et les afficher
@@ -27,7 +117,16 @@
                     todoList.innerHTML = ''; // Effacer la liste existante
                     data.forEach(todo => {
                         const li = document.createElement('li');
-                        li.textContent = todo.title;
+                        li.className = todo.completed ? 'completed' : '';
+
+                        li.innerHTML = `
+                            <span>${todo.title}</span>
+                            <div class="actions">
+                                <button class="completed-btn" onclick="toggleComplete(${todo.id})">✔</button>
+                                <button class="delete-btn" onclick="deleteTodo(${todo.id})">❌</button>
+                            </div>
+                        `;
+
                         todoList.appendChild(li);
                     });
                 });
@@ -42,7 +141,7 @@
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ title: title }),
+                body: JSON.stringify({ title: title, completed: false }),
             })
             .then(response => response.json())
             .then(data => {
@@ -52,8 +151,31 @@
             .catch(error => console.log('Erreur:', error));
         });
 
+        // Fonction pour marquer une tâche comme terminée
+        function toggleComplete(id) {
+            fetch(`http://localhost:3000/api/todos/${id}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ completed: true }),
+            })
+            .then(response => response.json())
+            .then(() => fetchTodos());
+        }
+
+        // Fonction pour supprimer une tâche
+        function deleteTodo(id) {
+            fetch(`http://localhost:3000/api/todos/${id}`, {
+                method: 'DELETE',
+            })
+            .then(response => response.json())
+            .then(() => fetchTodos());
+        }
+
         // Charger les tâches au démarrage
         fetchTodos();
     </script>
 </body>
 </html>
+
