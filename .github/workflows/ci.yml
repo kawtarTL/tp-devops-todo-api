@@ -37,17 +37,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2  # Récupère le code source de ton repository
 
-      - name: Deploy
-        run: |
-          # Exemple d'une commande de déploiement (personnalise selon ton besoin)
-          docker build -t mon-app .
-          docker run -d -p 8080:8080 mon-app  # Déploie ton application avec Docker
-          
-      # Étape de création de tag (optionnel mais recommandé)
+        # Étape de création de tag (optionnel mais recommandé)
       - name: Create tag
         if: success()  # Ne crée un tag que si le pipeline a réussi
         run: |
           TAG="v1.0.0"  # Remplace par le tag de ta version
           git tag $TAG
           git push origin $TAG  # Pousse le tag sur le repository GitHub
+
+      - name: Deploy
+        run: |
+          # Exemple d'une commande de déploiement (personnalise selon ton besoin)
+          docker build -t mon-app .
+          docker run -d -p 8080:8080 mon-app  # Déploie ton application avec Docker
+          
+      
 
