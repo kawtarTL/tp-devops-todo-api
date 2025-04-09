@@ -1,0 +1,23 @@
+{
+  "name": "tp-devops-todo-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kawtarTL/tp-devops-todo-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kawtarTL/tp-devops-todo-api/issues"
+  },
+  "homepage": "https://github.com/kawtarTL/tp-devops-todo-api#readme",
+  "description": "",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
