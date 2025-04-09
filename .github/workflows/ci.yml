@@ -3,38 +3,37 @@ name: CI Pipeline
 on:
   push:
     branches:
-      - main  # ou master si c'est ta branche principale
+      - main  # Le pipeline se déclenche sur chaque push vers la branche principale 'main'
 
 jobs:
   build:
-    runs-on: ubuntu-latest  # L'environnement dans lequel ton pipeline sera exécuté
+    runs-on: ubuntu-latest  # Environnement de la machine virtuelle pour exécuter le pipeline
 
     steps:
     - name: Checkout Code
-      uses: actions/checkout@v2  # Vérifie ton code depuis GitHub
+      uses: actions/checkout@v2  # Action pour récupérer le code depuis le dépôt GitHub
 
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '16'  # Spécifie la version de Node.js
+        node-version: '16'  # Définir la version de Node.js à utiliser, ajuste si nécessaire
 
     - name: Install Dependencies
-      run: npm install  # Installe les dépendances du projet
+      run: npm install  # Installe les dépendances de ton projet
 
     - name: Run Tests
-      run: npm test  # Exécute les tests unitaires avec Jest, Mocha, ou un autre framework
+      run: npm test  # Exécute les tests unitaires (ajuste en fonction de ton framework)
 
     - name: Lint Code
-      run: npm run lint  # Si tu utilises un linter comme ESLint
+      run: npm run lint  # Si tu utilises ESLint ou un autre linter, exécute-le ici
 
     - name: Build Project
-      run: npm run build  # Si ton projet nécessite une compilation (par exemple, pour TypeScript ou un bundler)
+      run: npm run build  # Compile ou prépare ton projet pour la production
 
     - name: Simulate Deployment
-      run: echo "Déploiement simulé"  # Si tu veux simplement simuler une étape de déploiement (par exemple Docker, cloud, etc.)
+      run: echo "Déploiement simulé"  # Une commande simulée de déploiement
 
     - name: Create Git Tag (optional)
       run: |
-        git tag -a v1.0.0 -m "Release v1.0.0"  # Crée un tag Git pour la release
-        git push origin v1.0.0  # Pousse le tag sur GitHub
-
+        git tag -a v1.0.0 -m "Release v1.0.0"  # Crée un tag Git pour la nouvelle version
+        git push origin v1.0.0  # Pousse ce tag sur GitHub
