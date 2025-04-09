@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -16,8 +18,12 @@
     "url": "https://github.com/kawtarTL/tp-devops-todo-api/issues"
   },
   "homepage": "https://github.com/kawtarTL/tp-devops-todo-api#readme",
-  "description": "",
+  "description": "API Todo List avec Node.js et Express",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
   }
 }

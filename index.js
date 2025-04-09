@@ -1,11 +1,20 @@
 const express = require('express');
-const app = express();
-const todoRoutes = require('./routes/todo');
+const path = require('path');
+const cors = require('cors');
 
-app.use(express.json());
+const app = express();
+const port = 3000;
+
+app.use(cors()); // Autoriser toutes les connexions CORS
+app.use(express.json()); // Pour analyser le JSON dans les requêtes
+
+// Servir les fichiers statiques (HTML, JS, etc.)
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Import des routes (todo.js)
+const todoRoutes = require('./routes/todo');
 app.use('/api/todos', todoRoutes);
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+app.listen(port, () => {
+  console.log(`Serveur API ToDo en cours d'exécution sur http://localhost:${port}`);
 });

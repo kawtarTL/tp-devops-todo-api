@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List</title>
+</head>
+<body>
+    <h1>Liste des tâches</h1>
+
+    <!-- Formulaire pour ajouter une tâche -->
+    <form id="todoForm">
+        <input type="text" id="todoTitle" placeholder="Ajouter une tâche" required>
+        <button type="submit">Ajouter</button>
+    </form>
+
+    <h2>Mes tâches :</h2>
+    <ul id="todoList"></ul>
+
+    <script>
+        // Fonction pour récupérer les tâches et les afficher
+        function fetchTodos() {
+            fetch('http://localhost:3000/api/todos')
+                .then(response => response.json())
+                .then(data => {
+                    const todoList = document.getElementById('todoList');
+                    todoList.innerHTML = ''; // Effacer la liste existante
+                    data.forEach(todo => {
+                        const li = document.createElement('li');
+                        li.textContent = todo.title;
+                        todoList.appendChild(li);
+                    });
+                });
+        }
+
+        // Fonction pour ajouter une tâche
+        document.getElementById('todoForm').addEventListener('submit', function (e) {
+            e.preventDefault(); // Empêcher le rechargement de la page
+            const title = document.getElementById('todoTitle').value;
+            fetch('http://localhost:3000/api/todos', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ title: title }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                fetchTodos(); // Rafraîchir la liste des tâches après l'ajout
+                document.getElementById('todoTitle').value = ''; // Réinitialiser le champ
+            })
+            .catch(error => console.log('Erreur:', error));
+        });
+
+        // Charger les tâches au démarrage
+        fetchTodos();
+    </script>
+</body>
+</html>

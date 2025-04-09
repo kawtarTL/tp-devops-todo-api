@@ -1,13 +1,21 @@
-# TP DevOps – API To-Do List
+# TP DevOps - TODO API
 
 ## Description
-Une API REST pour gérer une liste de tâches, réalisée dans le cadre d’un TP DevOps.
+Ce projet consiste en une API REST de gestion de tâches (TODO list) développée avec **Node.js** et **Express**. L'API permet de récupérer, ajouter, modifier et supprimer des tâches dans une liste de TODO.
 
-## Technologies utilisées
-- Node.js
-- Express
+## Fonctionnalités
+- Récupérer toutes les tâches
+- Ajouter une nouvelle tâche
+- Modifier une tâche existante
+- Supprimer une tâche
+- Gérer les erreurs liées aux requêtes
 
-## Lancement de l'application
-```bash
-npm install
-node app.js
+## Prérequis
+Avant de commencer, assurez-vous d'avoir les éléments suivants installés sur votre machine :
+- [Node.js](https://nodejs.org/) (version 14 ou supérieure)
+
+## Installation
+
+1. Clonez ce dépôt :
+   ```bash
+   git clone https://github.com/kawtarTL/tp-devops-todo-api.git
