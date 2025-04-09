@@ -15,6 +15,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 const todoRoutes = require('./routes/todo');
 app.use('/api/todos', todoRoutes);
 
-app.listen(port, () => {
-  console.log(`Serveur API ToDo en cours d'exécution sur http://localhost:${port}`);
-});
+// Exporte 'app' sans démarrer le serveur
+module.exports = app;
+
+// Démarre le serveur dans un fichier séparé ou ailleurs
+if (require.main === module) {
+  app.listen(port, () => {
+    console.log(`Serveur API ToDo en cours d'exécution sur http://localhost:${port}`);
+  });
+}
