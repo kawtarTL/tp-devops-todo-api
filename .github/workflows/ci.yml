@@ -49,9 +49,8 @@ jobs:
 
       - name: Deploy
         run: |
-          # Exemple d'une commande de déploiement (personnalise selon ton besoin)
           docker build -t mon-app .
-          docker run -d -p 8080:8080 mon-app  # Déploie ton application avec Docker
+          docker run -d -p 8080:3000 mon-app  # Déploie ton appli avec Docker
           
       
 
