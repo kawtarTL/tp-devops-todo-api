@@ -37,13 +37,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2  # Récupère le code source de ton repository
 
-        # Étape de création de tag (optionnel mais recommandé)
-      - name: Create tag
-        if: success()  # Ne crée un tag que si le pipeline a réussi
+       # Étape 6: Création de tag Git
+      - name: Création de tag Git
+        if: github.ref == 'refs/heads/master'
         run: |
-          TAG="v1.0.0"  # Remplace par le tag de ta version
+          git status
+          TAG="v1.0.${{ github.run_number }}"
           git tag $TAG
-          git push origin $TAG  # Pousse le tag sur le repository GitHub
+          git push origin $TAG
+          echo "Tag $TAG créé et poussé !"
 
       - name: Deploy
         run: |
